@@ -1,2 +1,20 @@
- 
-.
+01. SELECT -    vybrat
+    SELECT * FROM priklad;
+02. FROM    -   z kade vybrat
+03. AS      -   ako, alias
+04. WHERE   -   Podmienky vyberu, "IF"
+05. IS      -   JE  ???
+06. IS NOT  -   NIE JE  ???
+07. NULL    -   Prazdny riadok
+08. LIKE    -   Ako, pouziva sa pri hladani napr. v STRINGU
+09. %       -   Pouziva sa ako * v LINUXE. Najdi fakultu prirodovedecku - priro% | %ecku | %vedec%
+10. ORDER BY    -   zorad podla
+11. ASC         -   ASCENDING
+12. DESC        -   DESCENDING
+13. YEAR        -   V roku      YEAR(stlpec) = rok
+14. MONTH       -   V mesiaci   MONTH(stlpec) = mesiac
+15. AND
+16. OR
+17. DISTINCT    -   Unikatne, jedonecne vo vybere zp stlpcov
+18. LIMIT       -   Obmedzit zobrazovanie na
+
