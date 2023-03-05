@@ -1,13 +1,13 @@
 01. SELECT -    vybrat
     SELECT * FROM priklad;
-02. FROM    -   z kade vybrat
-03. AS      -   ako, alias
-04. WHERE   -   Podmienky vyberu, "IF"
-05. IS      -   JE  ???
-06. IS NOT  -   NIE JE  ???
-07. NULL    -   Prazdny riadok
-08. LIKE    -   Ako, pouziva sa pri hladani napr. v STRINGU
-09. %       -   Pouziva sa ako * v LINUXE. Najdi fakultu prirodovedecku - priro% | %ecku | %vedec%
+02. FROM        -   z kade vybrat
+03. AS          -   ako, alias
+04. WHERE       -   Podmienky vyberu, "IF"
+05. IS          -   JE  ???
+06. IS NOT      -   NIE JE  ???
+07. NULL        -   Prazdny riadok
+08. LIKE        -   Ako, pouziva sa pri hladani napr. v STRINGU
+09. %           -   Pouziva sa ako * v LINUXE. Najdi fakultu prirodovedecku - priro% | %ecku | %vedec%
 10. ORDER BY    -   zorad podla
 11. ASC         -   ASCENDING
 12. DESC        -   DESCENDING
@@ -17,4 +17,15 @@
 16. OR
 17. DISTINCT    -   Unikatne, jedonecne vo vybere zp stlpcov
 18. LIMIT       -   Obmedzit zobrazovanie na
+---------------------------------------------------------------------
+19. AVG         -   vypocita priemer
+20. MIN         -   ukaze minimum
+21. MAX         -   ukaze maximum
+22. COUNT       -   kolko riadkov sa nachadza v stlpci ; pocet numerickych hodnot ve sloupci
+23. SUM         -   Spocita stlpec
+24. ROUND       -   Zaokruhli
+                -   ROUND(number, decimals, operation) - number - cislo     - ktore zaokruhli
+                                                                - decimals  - na kolko zaokruhli
+                                                                - operatioo - optional
+                -   SELECT ROUND(235.415, -1) AS RoundValue;    240.000 |   %1) 235.400
 
