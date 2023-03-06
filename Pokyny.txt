@@ -28,4 +28,15 @@
                                                                 - decimals  - na kolko zaokruhli
                                                                 - operatioo - optional
                 -   SELECT ROUND(235.415, -1) AS RoundValue;    240.000 |   %1) 235.400
-
+25. LENGTH      -   LEN  LENGTH(premenna)
+26. SUBSTR      -   rez stringu     SUBSTR(string, start, lemgth)
+                                    SUBSTR(string FROM start FOR length)
+27. REVERSE     -   otoci string    REVERSE(string)
+28. CEILING     -   ak cislo je nad 0.01 ide hore na 1 ak je zacate zaokruhluje hore  CEILING(number)
+29. MD5
+30. SHA1        -
+31. CONCAT      -   aj v jave. Prida do seba string
+32. LEFT        -   zoberie 3 znaky z lava  SELECT LEFT('SQL Tutorial', 3) AS ExtractString;    SQL
+33. RIGHt       -   zoberie 3 znaky z prava SELECT RIGHT('SQL Tutorial', 3) AS ExtractString;   ial
+34. GROUP BY    -   zoskup podla  SELECT;FROM;WHERE;GROUP_BY;ORDER_BY
+35. HAVING      -   WHERE ale v agregacnych. Podmienka if.  SELECT;FROM;GROUP_BY;HAVING
