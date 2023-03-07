@@ -1,42 +1,52 @@
-01. SELECT -    vybrat
+01. SELECT          -    vybrat
     SELECT * FROM priklad;
-02. FROM        -   z kade vybrat
-03. AS          -   ako, alias
-04. WHERE       -   Podmienky vyberu, "IF"
-05. IS          -   JE  ???
-06. IS NOT      -   NIE JE  ???
-07. NULL        -   Prazdny riadok
-08. LIKE        -   Ako, pouziva sa pri hladani napr. v STRINGU
-09. %           -   Pouziva sa ako * v LINUXE. Najdi fakultu prirodovedecku - priro% | %ecku | %vedec%
-10. ORDER BY    -   zorad podla
-11. ASC         -   ASCENDING
-12. DESC        -   DESCENDING
-13. YEAR        -   V roku      YEAR(stlpec) = rok
-14. MONTH       -   V mesiaci   MONTH(stlpec) = mesiac
+02. FROM            -   z kade vybrat
+03. AS              -   ako, alias
+04. WHERE           -   Podmienky vyberu, "IF"
+05. IS              -   JE  ???
+06. IS NOT          -   NIE JE  ???
+07. NULL            -   Prazdny riadok
+08. LIKE            -   Ako, pouziva sa pri hladani napr. v STRINGU
+09. %               -   Pouziva sa ako * v LINUXE. Najdi fakultu prirodovedecku - priro% | %ecku | %vedec%
+10. ORDER BY        -   zorad podla
+11. ASC             -   ASCENDING
+12. DESC            -   DESCENDING
+13. YEAR            -   V roku      YEAR(stlpec) = rok
+14. MONTH           -   V mesiaci   MONTH(stlpec) = mesiac
 15. AND
 16. OR
-17. DISTINCT    -   Unikatne, jedonecne vo vybere zp stlpcov
-18. LIMIT       -   Obmedzit zobrazovanie na
+17. DISTINCT        -   Unikatne, jedonecne vo vybere zp stlpcov
+18. LIMIT           -   Obmedzit zobrazovanie na
 ---------------------------------------------------------------------
-19. AVG         -   vypocita priemer
-20. MIN         -   ukaze minimum
-21. MAX         -   ukaze maximum
-22. COUNT       -   kolko riadkov sa nachadza v stlpci ; pocet numerickych hodnot ve sloupci
-23. SUM         -   Spocita stlpec
-24. ROUND       -   Zaokruhli
-                -   ROUND(number, decimals, operation) - number - cislo     - ktore zaokruhli
-                                                                - decimals  - na kolko zaokruhli
-                                                                - operatioo - optional
-                -   SELECT ROUND(235.415, -1) AS RoundValue;    240.000 |   %1) 235.400
-25. LENGTH      -   LEN  LENGTH(premenna)
-26. SUBSTR      -   rez stringu     SUBSTR(string, start, lemgth)
+19. AVG             -   vypocita priemer
+20. MIN             -   ukaze minimum
+21. MAX             -   ukaze maximum
+22. COUNT           -   kolko riadkov sa nachadza v stlpci ; pocet numerickych hodnot ve sloupci
+23. SUM             -   Spocita stlpec
+24. ROUND           -   Zaokruhli
+                    -   ROUND(number, decimals, operation) - number - cislo     - ktore zaokruhli
+                                                                    - decimals  - na kolko zaokruhli
+                                                                    - operatioo - optional
+                    -   SELECT ROUND(235.415, -1) AS RoundValue;    240.000 |   %1) 235.400
+25. LENGTH          -   LEN  LENGTH(premenna)
+26. SUBSTR          -   rez stringu     SUBSTR(string, start, lemgth)
                                     SUBSTR(string FROM start FOR length)
-27. REVERSE     -   otoci string    REVERSE(string)
-28. CEILING     -   ak cislo je nad 0.01 ide hore na 1 ak je zacate zaokruhluje hore  CEILING(number)
+27. REVERSE         -   otoci string    REVERSE(string)
+28. CEILING         -   ak cislo je nad 0.01 ide hore na 1 ak je zacate zaokruhluje hore  CEILING(number)
 29. MD5
-30. SHA1        -
-31. CONCAT      -   aj v jave. Prida do seba string
-32. LEFT        -   zoberie 3 znaky z lava  SELECT LEFT('SQL Tutorial', 3) AS ExtractString;    SQL
-33. RIGHt       -   zoberie 3 znaky z prava SELECT RIGHT('SQL Tutorial', 3) AS ExtractString;   ial
-34. GROUP BY    -   zoskup podla  SELECT;FROM;WHERE;GROUP_BY;ORDER_BY
-35. HAVING      -   WHERE ale v agregacnych. Podmienka if.  SELECT;FROM;GROUP_BY;HAVING
+30. SHA1            -
+31. CONCAT          -   aj v jave. Prida do seba string
+32. LEFT            -   zoberie 3 znaky z lava  SELECT LEFT('SQL Tutorial', 3) AS ExtractString;    SQL
+33. RIGHT           -   zoberie 3 znaky z prava SELECT RIGHT('SQL Tutorial', 3) AS ExtractString;   ial
+34. GROUP BY        -   zoskup podla  SELECT;FROM;WHERE;GROUP_BY;ORDER_BY
+35. HAVING          -   WHERE ale v agregacnych. Podmienka if.  SELECT;FROM;GROUP_BY;HAVING
+---------------------------------------------------------------------
+36. INNER JOIN * ON -   spaja tabulky   SELECT;FROM;INNER JOIN;ON
+37. OUTER JOIN      -
+38. CROSS JOIN      -
+39. LEFT JOIN       -
+40. RIGHT JOIN      -
+41. CREATE          -
+42. INSERT          -
+43. UPDATE          -
+44. DELETE          -
