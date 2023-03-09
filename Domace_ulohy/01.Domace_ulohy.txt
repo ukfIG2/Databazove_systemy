@@ -1,0 +1,31 @@
+xx. Zadanie
+        Moja odpoved
+            Spravna odpoved
+
+01. (company) Vypíšte názvy produktov (nič iné), ktoré patria do produktovej línia Motorcycles.
+        SELECT productName FROM products WHERE productLine = 'Motorcycles';
+            SELECT `productName` FROM `products` WHERE `productLine`="Motorcycles"
+
+02. (company) Vypíšte čísla všetkých objednávok, ktoré boli odoslané v roku 2004 alebo 2005 a majú status Shipped
+        SELECT orderNumber FROM orders WHERE (YEAR(shippedDate) =  2004 OR YEAR(shippedDate) =  2005)  AND status = 'Shipped';
+            SELECT orderNumber FROM `orders` WHERE (YEAR(orderDate)="2004" OR YEAR(orderDate)="2005") AND status="Shipped"
+
+03. (company) Vypíšte čísla zákazníkov, ku ktorých objednávkam boli pridané nejaké poznámky/komentáre.
+        SELECT customerNumber FROM orders WHERE comments IS NOT NULL;
+            SELECT DISTINCT `customerNumber` FROM `orders` WHERE `comments` IS NOT NULL.
+
+04. (company) Vypíšte mená a priezviská všetkých zamestnancov, ktorí zodpovedajú obchodnému manažérovi Williamovi Pattersonovi.
+        SELECT firstName, lastName FROM employees WHERE reportsTo = 1088
+            SELECT firstName, lastName FROM `employees` WHERE reportsTo=1088.
+
+05. (company) Zákazníci, ktorých krstné meno je „Ann“.
+        SELECT * FROM customers WHERE contactFirstName = 'Ann' ;
+            SELECT * FROM `customers` WHERE `contactFirstName`="Ann".
+
+06. company) Zamestnanci, ktorých priezvisko končí na „son“.
+        SELECT * FROM employees WHERE lastName LIKE '%son' ;
+            SELECT * FROM `employees` WHERE `lastName` LIKE "%son".
+
+07. (company) Vypíšte iba meno a priezvisko zákazníka, ktorý má najvyšší kreditný limit.
+        SELECT contactFirstName, contactLastName FROM customers  ORDER BY creditLimit DESC;
+            SELECT contactFirstName, contactLastName FROM `customers`  ORDER BY creditLimit DESC LIMIT 1.

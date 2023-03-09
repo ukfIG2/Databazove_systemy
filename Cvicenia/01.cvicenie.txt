@@ -1,0 +1,44 @@
+xx. Zadanie
+        Moja odpoved
+            Spravna odpoved
+
+01. Zákazníci, ktorých krstné meno je „Leon“.
+        SELECT * FROM customer WHERE first_name = 'Leon';
+            SELECT * FROM `customer` WHERE `first_name`="Leon"
+
+02. Herci, ktorých priezvisko začína na „Hop“.
+        SELECT * FROM actor WHERE last_name LIKE 'Hop%';
+            SELECT * FROM `actor` WHERE `last_name` LIKE "Hop%"
+
+03. Vypíšte názvy filmov (nič iné), ktoré majú rating NC-17.
+        SELECT title FROM film WHERE rating = 'NC-17';
+            SELECT `title` FROM `film` WHERE `rating`="NC-17"
+
+04. Vypíšte ID výpožičiek (rental), pri ktorých nie je zaznamenaný dátum vrátenia.
+        SELECT rental_id FROM rental WHERE return_date is null;
+            SELECT  `rental_id` FROM `rental` WHERE `return_date` IS NULL
+
+05. Zobrazte všetkých hercov, ktorých priezvisko začína na písmeno T.
+        SELECT * FROM actor WHERE last_name LIKE 'T%';
+            SELECT * FROM actor WHERE last_name LIKE "T%"
+
+06. Zobrazte názvy filmov, kde replacement_cost > 10 a < 12,50 (tab. film).
+        SELECT title FROM film WHERE replacement_cost > 10 AND replacement_cost < 12.5;
+            SELECT * FROM film WHERE replacement_cost > 10 AND replacement_cost < 12.5.
+
+07. Pripravte abecedný zoznam zákazníkov obchodu s id = 2 (tab. customer).
+        SELECT * FROM customer WHERE store_id = 2 ORDER BY last_name;
+            SELECT * FROM customer WHERE store_id = 2 ORDER BY last_name
+
+08. Vypíšte všetky krstné mená hercov začínajúce na "M" (každé iba raz).
+        SELECT DISTINCT first_name FROM actor WHERE first_name LIKE 'M%';
+            SELECT DISTINCT first_name FROM `actor` WHERE first_name LIKE "M%"
+
+09. Vypíšte ID všetkých výpožičiek, ktoré boli vypožičané v júli 2005 a vrátené v júli alebo auguste.
+        SELECT rental_id FROM rental WHERE YEAR(rental_date) = 2005 AND MONTH(rental_date) = 7 AND  ((YEAR(return_date) = 2005 AND month(return_date) = 7) OR (YEAR(return_date) = 2005 AND month(return_date) = 8));
+            SELECT * FROM `rental` WHERE YEAR(rental_date)=2005 AND MONTH(rental_date)=7 AND (MONTH(return_date)=7 OR MONTH(return_date)=8).
+        #############################V pripade ze uz mame urceny rok nemusi ho dalej davat???
+
+10. Vypíšte iba ID zákazníka, ktorý realizoval posledné vrátenie nejakej výpožičky.
+        SELECT customer_id FROM rental ORDER BY rental_date DESC;
+            SELECT customer_id FROM `rental` ORDER BY `return_date` DESC LIMIT 1.

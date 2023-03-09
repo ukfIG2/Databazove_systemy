@@ -1,0 +1,51 @@
+xx. Zadanie
+        Moja odpoved
+            Spravna odpoved
+
+01. (shopify) Z tabuľky cenových plánov uveďte ku každej price počet, koľko krát sa v tabuľke nachádza. Vypíšte však iba tie, ktoré neobsahujú "Free" a majú početnosť viac ako 10.
+        -
+             SELECT price, COUNT(*) AS pocet FROM `pricing_plans` WHERE price NOT LIKE "%Free%" GROUP BY price HAVING pocet>10.
+
+02. (shopify) Pre každý deň v týždni (stačí ako čísla 0=pondelok, 1=utorok...) uveďte, koľko recenzií sa v daný deň pridalo.
+        SELECT dayofweek(posted_at) as den_v_tyzdni, COUNT(posted_at) as pocet_pozreti	FROM reviews GROUP BY den_v_tyzdni;
+            SELECT WEEKDAY(posted_at) AS den, COUNT(*) FROM `reviews` GROUP BY den.
+
+03. Rozdeľte recenzie podľa ratingu. Ku každému ratingu (tj. 1, 2, 3, 4 a 5) vypíšte počet takýchto recenzií, súčet všetkých znakov z textu recenzií (body) pre danú skupinu a tiež priemernú dĺžku textu recenzie s daným ratingom. (tj. napr. recenzie s ratingom 2 majú počet 247, súčet všetkých znakov 97204 a priemernú dĺžku 393 znakov...)
+        -
+            SELECT rating, COUNT(*), SUM(LENGTH(body)), AVG(LENGTH(body)) FROM `reviews` GROUP BY rating.
+
+04. (shopify) Aká je priemerná nápomocnosť recenzie (helpful_count) pri recenziách, na ktoré reagoval vývojár? Zaokrúhlite na 2 desatinné čísla pomocou funkcie. (tab. Reviews)
+        -
+             SELECT ROUND(AVG(helpful_count), 2) FROM `reviews` WHERE developer_reply IS NOT NULL.
+
+05. Vypíšte priemerné ratingy pre recenzie, ktoré majú a ktoré nemajú odpoveď od vývojára
+        -
+            SELECT developer_reply IS NULL AS s_odpovedou, AVG(rating) FROM `reviews` GROUP BY developer_reply IS NULL.
+
+06. Uveďte počet odpovedí vývojárov na recenzie, ktoré majú rating vyšší ako 2.
+    -
+        SELECT COUNT(developer_reply) FROM `reviews` WHERE rating > 2.
+
+07. Vypíšte dátum prvej pridanej recenzie v databáze. (bez LIMIT)
+        SELECT min(posted_at) from reviews;
+            SELECT MIN(posted_at) FROM `reviews`.
+
+08. (shopify) Vypíšte autorov recenzií, pri čom ku každému uveďte počet jeho recenzií a priemerný rating jeho recenzií. Vyfiltrujte iba tých, ktorí pridali viac ako 1 recenziu a zoraďte ich podľa počtu recenzií od najväčšieho.
+        SELECT author AS AUTOR, count(﻿id) AS pocet_recenzii, AVG(rating) AS priemerna_recenzia FROM reviews  group by author having pocet_recenzii>1 ORDER BY pocet_recenzii DESC;
+            SELECT author, COUNT(*), AVG(rating) AS hodnotenie FROM `reviews` GROUP BY author HAVING hodnotenie>1 ORDER BY `COUNT(*)` DESC.
+
+09. (shopify) Vypíšte zoznam vývojárov a ku každému uveďte počet appiek od neho v databáze. Výsledok zoraďte od vývojára s najväčším počtom appiek.
+        SELECT developer as DEVELOPER, COUNT(id) AS pocet_apiek FROM apps GROUP BY developer ORDER BY pocet_apiek DESC;
+            SELECT developer, COUNT(*) AS pocet FROM `apps` GROUP BY developer ORDER BY pocet DESC.
+
+10. Aký je počet cenových plánov, ktorých cena obsahuje slovo "Free"?
+        SELECT COUNT(id) FROM pricing_plans WHERE price LIKE "%Free%" ;
+            SELECT COUNT(*) FROM `pricing_plans` WHERE price LIKE "%Free%".
+
+11. Vypíšte zoznam appiek a ku každej počet znakov v jej popise (description). Zoraďte ich od najdlhšieho popisu.
+        SELECT title AS nazov, LENGTH(description) AS pocet_znakov_v_popise FROM apps GROUP BY nazov ORDER BY pocet_znakov_v_popise DESC;
+            SELECT title, LENGTH(description) AS dlzka_popisu FROM `apps` ORDER BY dlzka_popisu DESC.
+
+12. shopify) Aký je priemerný počet recenzií na appku? (tab. Apps)
+        SELECT AVG(reviews_count) FROM apps;
+            SELECT AVG(reviews_count) FROM `apps.

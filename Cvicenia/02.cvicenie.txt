@@ -1,0 +1,51 @@
+xx. Zadanie
+        Moja odpoved
+            Spravna odpoved
+
+01. Aká je priemerná dĺžka filmu a koľko trvá najkratší film? (tab.film).
+        SELECT AVG(length) as priemerna_dlzka, MIN(length) as najkratsi_film FROM film;
+            SELECT AVG(length) AS priemer, MIN(length) AS najkratsi FROM film.
+
+02. Koľko zákazníkov je neaktívnych? (tab. customer)
+        SELECT * FROM customer WHERE active = 0;
+            SELECT COUNT(customer_id) AS pocet FROM customer WHERE active = 0
+
+03. Kedy bola uskutočnená prvá platba za výpožičku?  (tab. payment)
+        SELECT payment_date FROM payment order by payment_date asc limit 1;
+            SELECT MIN(payment_date) AS min_datum FROM payment.
+
+04. Koľko zaplatili zákazníci spolu v roku 2005 za požičanie filmov?  (tab. payment)
+        SELECT SUM(amount) as Platby_spolu FROM payment WHERE YEAR(payment_date) = 2005;
+            SELECT SUM(amount) AS platby FROM payment WHERE YEAR(payment_date) = 2005.
+
+05. Koľko rôznych zákazníkov zrealizovalo platbu? (tab. payment)
+        SELECT DISTINCT customer_id FROM payment ;
+            SELECT COUNT(DISTINCT customer_id) AS pocet FROM payment.
+
+06. Uveďte zoznam názvov filmov a dĺžku ich trvania v hodinách (na 2 desatinné miesta).
+        SELECT title as Nazov_filmu, ROUND((length/60), 2) as Cas_v_hodinach FROM film ;
+            SELECT title, ROUND(length/60,2) AS dlzka FROM film
+
+07. Ku ID každého zákazníka uveďte najnižšiu, najvyššiu a priemer platieb, ktoré uskutočnil a zoraďte ich od najnižšej priemernej platby.
+        AVG(amount) AS priemerna_platba  FROM payment GROUP BY zakaznik order by priemerna_platba ASC;
+            SELECT customer_id, MIN(amount), MAX(amount), AVG(amount) FROM `payment` GROUP BY customer_id ORDER BY AVG(amount).
+
+08. Vypíšte krstné mená zákazníkov, ktoré sa v tab. customer nachádzajú viac ako jeden krát, a ich počet.
+        SELECT COUNT(first_name) as pocet_mien, first_name AS meno FROM customer GROUP BY first_name having pocet_mien>1;
+            SELECT first_name, COUNT(first_name) AS pocet FROM customer GROUP BY first_name HAVING pocet > 1
+
+09. Zistite počty výpožičiek v jednotlivých mesiacoch v roku 2005 (tab. rental).
+        SELECT MONTH(rental_date) AS mesiac,  COUNT(rental_id) AS pocet_vypoziciek, rental_date AS konkretny_datum FROM rental GROUP by mesiac HAVING year(rental_date) = 2005 ;
+            SELECT MONTH(rental_date) AS mesiac, YEAR(rental_date) AS rok, COUNT(*) AS pocet FROM rental GROUP BY rok, mesiac HAVING rok = 2005.
+
+10. Ku každej položke z inventára uveďte rok a koľko krát bola vypožičaná v roku 2006. (tab. rental)
+        SELECT inventory_id AS objekt, COUNT(rental_id) AS x_pozicany FROM rental  WHERE YEAR(rental_date) = 2006 group  by objekt  ;
+                SELECT inventory_id, YEAR(rental_date) AS rok, COUNT(*) FROM `rental` GROUP BY inventory_id, rok HAVING rok=2006.
+
+11. Vytvorte tabuľku obsahujúcu prvých piatich zákazníkov (stačia ich ID), ktorí tu minuli najviac peňazí a sumy, ktoré minuli.
+        SELECT customer_id AS zakaznik, SUM(amount) AS suma_minutych_penazi FROM payment GROUP BY customer_id ORDER BY suma_minutych_penazi DESC LIMIT 5;
+            SELECT customer_id, SUM(amount) AS celkova_suma FROM `payment` GROUP BY customer_id ORDER BY celkova_suma DESC LIMIT 5
+
+12. Zobrazte, koľko okresov (district) sa začína na písmenko A, ďalej B, C, D... atď. avšak uveďte iba tie, ktorých počet je väčší ako 10.
+        -
+            SELECT LEFT(district, 1) AS prve_pismeno, COUNT(*) AS pocet_miest FROM `address` GROUP BY LEFT(district, 1) HAVING pocet_miest>10.
