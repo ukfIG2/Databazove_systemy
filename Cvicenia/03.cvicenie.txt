@@ -1,0 +1,51 @@
+xx. Zadanie
+        Moja odpoved
+            Spravna odpoved
+
+01. Uveďte zoradené všetky smerovacie čísla a k nim prislúchajúce mesto (city). List all the postal codes and their associated city.
+        SELECT address.postal_code AS PSC, city.city AS Mesto from city INNER JOIN address ON city.city_id=address.city_id WHERE postal_code != "" order by address.postal_code ASC ;
+            -
+
+02. Uveďte meno a priezvisko zákazníkov a k nim prislúchajúce číslo domu a ulicu, PSČ a mesto. Provide the name and surname of the customers and their associated house number and street, postal code, and city.
+        SELECT customer.first_name AS Meno, customer.last_name AS Priezvisko,
+        address.address AS Cislo_domu_a_ulica, address.postal_code AS PSC, city.city AS Mesto
+        FROM customer
+        INNER JOIN address ON customer.address_id=address.address_id
+        INNER JOIN city ON address.city_id=city.city_id;
+
+03. Vypíšte názov filmu, meno a priezvisko herca, ktorý v ňom hral. List the name of the movie, the name and surname of the actor who played it.
+        SELECT film.title AS Nazov_filmu, actor.first_name AS Krstne_meno, actor.last_name AS Priezvisko FROM film_actor
+        INNER JOIN actor ON film_actor.actor_id=actor.actor_id
+        INNER JOIN film ON film_actor.film_id=film.film_id;
+
+04. Vypíšte štát a počet miest, ktoré sú v db evidované od najväčšieho k najmenšiemu (podľa počtu miest). (tab. city, resp. aj tab. country) List the state and the number of places that are listed in the database from largest to smallest.
+        SELECT country.country AS Stat, COUNT(city.city_id) AS Pocet_miest FROM country
+        INNER JOIN city ON country.country_id=city.country_id
+        GROUP BY country.country
+        ORDER BY Pocet_miest ASC;
+
+05. Zistite počet výpožičiek jednotlivých zákazníkov a uveďte aj ich mená (tab.rental). Zoraďte podľa customer_id.  Find out the number of individual customer rentals and their names.
+        SELECT customer.last_name AS Priezvisko, customer.first_name AS Krstne_meno, COUNT(rental.rental_id) FROM rental
+        INNER JOIN customer ON rental.customer_id=customer.customer_id
+        GROUP BY customer.customer_id
+        ORDER BY customer.customer_id ASC;
+
+06. Pre každú kategóriu filmov uveďte priemernú dĺžku filmov.
+        SELECT category.name AS Nazov_kategorie, AVG(film.length) AS Priemerna_dlzka_filmov FROM category
+        INNER JOIN film_category ON category.category_id=film_category.category_id
+        INNER JOIN film ON film_category.film_id=film.film_id
+        GROUP BY category.name;
+
+07. Koľko nevrátených výpožičiek majú jednotliví zákazníci?
+        SELECT customer.first_name AS Meno, customer.last_name AS Priezvisko, COUNT(*) AS Pocet_nevratenych_vypoziciek FROM rental
+        INNER JOIN customer ON rental.customer_id=customer.customer_id
+        WHERE rental.return_date IS NULL
+        GROUP BY customer.customer_id;
+
+08. Vytvorte dotaz, ktorý zobrazí názov krajiny, názov mesta a počet zákazníkov, ktorí majú v tomto meste adresu. Zoraďte ich podľa tohto počtu zákazníkov.
+
+09. Do tabuľky staff pridajte nového pracovníka obchodu so store_id = 1 s menom Jožko Mrkvička, s id adresy 10, prezývkou Jozino a heslom, ktoré vznikne hashom jeho prezývky.
+
+10. Pridajte do tabuľky kategórií novú kategóriu "Thriller".
+
+11. (Túto úlohu riešte až po vyriešení úlohy s pridávaním novej kategórie) Vypíšte tabuľku, ktorá bude uvádzať názov kategórie a názov filmu. V tabuľke sa musí nachádzať každá kombinácia kategória/film, ale aj kategórie, ku ktorým nie je žiadny film. Výsledok zoraďte podľa filmov podľa abecedy od A.
