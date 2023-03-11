@@ -43,9 +43,19 @@ xx. Zadanie
         GROUP BY customer.customer_id;
 
 08. Vytvorte dotaz, ktorý zobrazí názov krajiny, názov mesta a počet zákazníkov, ktorí majú v tomto meste adresu. Zoraďte ich podľa tohto počtu zákazníkov.
+	SELECT country.country AS Krajina, city.city AS Mesto, COUNT(customer.customer_id) AS Pocet_zakaznikov FROM customer
+	INNER JOIN address ON customer.address_id=address.address_id
+	INNER JOIN city ON address.city_id=city.city_id
+	INNER JOIN country ON city.country_id=country.country_id
+	GROUP BY city.city
+	ORDER BY Pocet_zakaznikov ASC;
 
 09. Do tabuľky staff pridajte nového pracovníka obchodu so store_id = 1 s menom Jožko Mrkvička, s id adresy 10, prezývkou Jozino a heslom, ktoré vznikne hashom jeho prezývky.
+	INSERT INTO staff (first_name, last_name, store_id, address_id, username, password)
+	values ("Jožko", "Mrkvička", 1, 10, "Jozino", sha1(username) );
 
 10. Pridajte do tabuľky kategórií novú kategóriu "Thriller".
+	INSERT INTO category (name, last_update)
+	VALUES ("Thriller", now());
 
 11. (Túto úlohu riešte až po vyriešení úlohy s pridávaním novej kategórie) Vypíšte tabuľku, ktorá bude uvádzať názov kategórie a názov filmu. V tabuľke sa musí nachádzať každá kombinácia kategória/film, ale aj kategórie, ku ktorým nie je žiadny film. Výsledok zoraďte podľa filmov podľa abecedy od A.
