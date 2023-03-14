@@ -1,0 +1,47 @@
+xx. Zadanie
+    Moja odpoved
+        Spravna odpoved
+
+01. Pre každý mesiac, v ktorom bola vykonaná nejaká výpožička, uveďte, koľko bolo vypožičaných filmov z kategória akčné filmy (overujte slovo "Action", nie id kategórie).
+
+    Koľko ich bolo v mesiaci júl?
+
+02. Pre každý jazyk z tabuľky language uveďte priemernú dĺžku filmov v tomto jazyku (výstupná tabuľka by mala obsahovať výpis všetkých jazykov a priemernú dĺžku filmu).
+
+    Aký výstup má tabuľka pre taliančinu?
+
+03. Vytvorte tabuľku, kde pre každú kombináciu krajina/store_id uvediete počet zákazníkov s unikátnym krstnými menom vrámci tejto kombinácie (tj. Ak sú traja Jozefovia zo Slovenska, ktorí nakúpili cez store id 1, tak sa započítajú iba raz)
+
+    Koľko Argentínčanov s unikátnym krstným menom realizovali výpožičku cez Obchod č.2?
+
+04. Vytvorte tabuľku, kde filmy rozdelíte do kategórií podľa dĺžky popisu (description) na "Do 10 znakov", "Do 20 znakov" atď. po desiatkach. Pre každú skupinu vypočítajte priemernú replacement_cost. Počítajte iba filmy z kategórií začínajúcich na S a F a vo výstupe nechajte len skupiny s priemernou cenou viac ako 20.
+
+    Akú priemernú cenu budú mať filmy z výstupu v skupine "Do 80 znakov"? (zaokrúhlite na 2 desatinné)
+
+05. Pre každého vývojára (názov z tab. Apps) uveďte, koľko sa v tabuľke reviews nachádza recenzií na appky od neho a koľko je takých, na ktoré odpovedal (developer_reply). Zoznam zoraďte podľa abecedy.
+
+    O koľko je pre vývojára Above Market v tabuľke menej zodpovedaných oproti nezodpovedaným recenziám? Uveďte číslo.
+
+06. Ku každej kategórii (categories) uveďte, koľko appiek je k nej priradených (z apps).
+
+    Koľko appiek je v kategórii Reporting?
+
+07. Vložte do databázy novú tabuľku s názvom audiobook s atribútmi audiobook_id, nazov (max. 40 znakov), popis (max. 255 znakov) a rok_vydania ako dátový typ dátum.
+
+08. (company) Zobrazte tabuľku, kde budú dva stĺpce priezvisko a krstne_meno, kde budú vypísaní všetky zákazníci aj zamestnanci.
+
+09. sakila) Do tabuľky country vložte krajinu Transilvania.
+
+10. (sakila) Vymažte z tabuľky country krajinu Transilvania.
+
+11. (sakila) Vypíšte filmy, ktorých dĺžka je väčšia ako priemerná dĺžka filmov.
+
+    Koľko ich je?
+
+12. (sakila) Vypíšte maximum z priemerov (samostatných) platieb pre každého zákazníka (výsledok bude iba jedna hodnota, v prípade rovnosti ich môže byť viac)
+
+    Akáý je výsledok? (na 1 desatinné č.)
+
+13. (sakila) Vypíšte mená zákazníkov (v jednom stĺpci spolu meno aj priezvisko), ktorí uhradili najvyššiu sumu.
+
+    Koľko ich je?
