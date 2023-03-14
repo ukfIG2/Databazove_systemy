@@ -8,13 +8,20 @@ xx. Zadanie
         INNER JOIN film_category ON inventory.film_id=film_category.film_id
         INNER JOIN category ON film_category.category_id=category.category_id
         GROUP BY category.category_id;
-            -
+            SELECT category.name, COUNT(DISTINCT rental.rental_id) AS pocet FROM category
+            INNER JOIN film_category ON (category.category_id=film_category.category_id)
+            INNER JOIN inventory ON (film_category.film_id=inventory.film_id)
+            INNER JOIN rental ON (rental.inventory_id=inventory.inventory_id)
+            GROUP BY category.category_id.
 
 02. Vytvorte tabuľku obsahujúcu prvých piatich zákazníkov s menom a priezviskom, ktorí tu minuli najviac peňazí. (db. Sakila)
         SELECT customer.first_name AS meno, customer.last_name AS priezvisko, SUM(amount) AS SUMA FROM payment
         INNER JOIN customer ON payment.customer_id=customer.customer_id
         GROUP BY customer.customer_id ORDER BY SUMA DESC;
-            -
+            SELECT customer.first_name AS meno, customer.last_name AS priezvisko, SUM(amount) AS platby_spolu FROM `customer`
+            INNER JOIN payment ON (customer.customer_id=payment.customer_id)
+            GROUP BY customer.customer_id
+            ORDER BY platby_spolu DESC LIMIT 5.
 
 03. Ku každej kategórii filmov uveďte počet hercov, ktorí hrajú v tejto kategórii filmov. (db. Sakila)
 
@@ -27,13 +34,25 @@ xx. Zadanie
         INNER JOIN category ON film_category.category_id=category.category_id
         GROUP BY category.name;
 -----------------ZLE
+                SELECT category.name AS nazov, COUNT(DISTINCT actor.actor_id) AS pocet_hercov FROM actor
+                INNER JOIN film_actor ON (film_actor.actor_id=actor.actor_id)
+                INNER JOIN film ON (film.film_id=film_actor.film_id)
+                INNER JOIN film_category ON (film.film_id=film_category.film_id)
+                INNER JOIN category ON (film_category.category_id=category.category_id)
+                GROUP BY category.category_id.
 
 04. Uveďte ten okres (district), ktorý má najväčší počet platieb zákazníkov z daného okresu. Tj. tabuľka bude obsahovať 1 záznam Názov okresu | Počet platieb. (db. Sakila)
 
         SELECT address.district AS Adresa, SUM(payment.amount) AS Celkova_suma FROM payment
         INNER JOIN customer ON payment.customer_id=customer.customer_id
         INNER JOIN address ON customer.address_id=address.address_id
-        GROUP BY address.district ORDER BY Celkova_suma DESC LIMIT 1
+        GROUP BY address.district
+        ORDER BY Celkova_suma DESC LIMIT 1
+                SELECT address.district AS okres, COUNT(payment_id) AS pocet_platieb FROM `payment`
+                INNER JOIN customer ON (payment.customer_id=customer.customer_id)
+                INNER JOIN address ON (customer.address_id=address.address_id)
+                GROUP BY address.district
+                ORDER BY pocet_platieb DESC LIMIT 1.
 
 05. Ku každému zákazníkovi (meno a priezvisko) uveďte súčet jeho platieb v roku 2005 v mesiaci máj, ktoré vybavoval pracovník Mike Hillyer a tento súčet je väčší ako 10. (db. Sakila)
         SELECT customer.first_name AS Meno, customer.last_name AS Priezvisko, SUM(payment.amount) AS Suma FROM customer
@@ -43,20 +62,34 @@ xx. Zadanie
         #HAVING Suma >10
         GROUP BY customer.customer_id
         HAVING Suma >10;
+                SELECT customer.first_name AS meno, customer.last_name AS priezvisko, SUM(payment.amount) AS sucet_platieb FROM `payment`
+                INNER JOIN staff ON (payment.staff_id=staff.staff_id)
+                INNER JOIN customer ON (customer.customer_id=payment.customer_id)
+                WHERE staff.staff_id=1 AND YEAR(payment.payment_date)=2005 AND MONTH(payment.payment_date)=5
+                GROUP BY customer.customer_id
+                HAVING sucet_platieb>10.
 
 06. Ku každému autorovi (reviews) uveďte appku, ktorú recenzoval (apps). Pridajte jeho rating pre danú appku (reviews) a rating appky (apps). Zoraďte výsledky podľa autora (abecedne). (db. Shopify)
         SELECT reviews.author AS Autor, apps.title AS Nazov_aplikacie, reviews.rating AS Hodnotenie_autora, apps.rating AS Hodnotenie_aplikacie FROM reviews
         INNER JOIN apps ON reviews.app_id=apps.id
         GROUP BY reviews.author
         ORDER BY reviews.author ASC;
+                SELECT reviews.author, apps.title, reviews.rating AS autor_rating, apps.rating AS app_rating FROM apps
+                INNER JOIN `reviews` ON(apps.id=reviews.app_id)
+                ORDER BY reviews.author.
 
 07. Ku každej appke (jej názvu) vypíšte jej kľúčový benefit (title) (môže ich byť aj viac) a jeho popis. (db. Shopify)
-
         SELECT apps.title AS Nazov_aplikacie, key_benefits.title AS Klucovy_benefit, key_benefits.description AS Popis_benefitu FROM apps
         INNER JOIN key_benefits ON apps.id=key_benefits.app_id;
+                SELECT apps.title AS nazov, key_benefits.title AS benefit, key_benefits.description FROM apps
+                INNER JOIN `key_benefits` ON(apps.id=key_benefits.app_id).
 
 08. Ku každej appke (jej názvu) uveďte počet kľúčových benefitov uvedených v tab. Key_benefits. Zoraďte ich od najpočetnejších. (db. Shopify)
         SELECT apps.title AS Nazov_aplikacie, COUNT(key_benefits.title) AS Pocet_klucovy_benefitov FROM apps
         INNER JOIN key_benefits ON apps.id=key_benefits.app_id
         GROUP BY apps.title
         ORDER BY Pocet_klucovy_benefitov DESC;
+                SELECT apps.title AS nazov, COUNT(*) FROM apps
+                INNER JOIN `key_benefits` ON(apps.id=key_benefits.app_id)
+                GROUP BY nazov
+                ORDER BY `COUNT(*)` DESC.
