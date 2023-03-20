@@ -50,3 +50,19 @@
 42. INSERT          -
 43. UPDATE          -
 44. DELETE          -
+
+45.	IN
+46. ANY     -   Akykolvek
+47. SOME    -   Nejaky
+
+48. CREATE TABLE "nazov tabulky"(
+
+    id                    INT PRINARY KEY
+    first_name  VARCHAR(max_pocet znakov)   NOT NULL
+    last_name   VARCHAR(max_pocet znakov)   NOT NULL
+    Email              VERCHAR(100)  UNIQUE
+    Start Contrat   DATE
+    Suma            DECIMAL(10[najviac 10 miest],2)
+    id_dep      INT     FOREIGN KEY department (id)
+
+49.

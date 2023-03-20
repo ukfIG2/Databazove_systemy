@@ -3,12 +3,27 @@ xx. Zadanie
         Spravna odpoved
 
 01. Pre každý mesiac, v ktorom bola vykonaná nejaká výpožička, uveďte, koľko bolo vypožičaných filmov z kategória akčné filmy (overujte slovo "Action", nie id kategórie).
+        SELECT 	MONTH(rental.rental_date) AS Mesiac,
+		COUNT(rental.rental_id)
+        FROM rental
+        INNER JOIN inventory ON rental.inventory_id=inventory.inventory_id
+        INNER JOIN film_category ON inventory.film_id=film_category.film_id
+        INNER JOIN category ON film_category.category_id=category.category_id
+        WHERE category.name = "Action"
+        GROUP BY Mesiac;
 
     Koľko ich bolo v mesiaci júl?
+        464
 
 02. Pre každý jazyk z tabuľky language uveďte priemernú dĺžku filmov v tomto jazyku (výstupná tabuľka by mala obsahovať výpis všetkých jazykov a priemernú dĺžku filmu).
+        SELECT 	language.name AS Jazyk,
+		AVG(film.length)
+        FROM language
+        LEFT JOIN film ON language.language_id=film.language_id
+        GROUP BY Jazyk;
 
     Aký výstup má tabuľka pre taliančinu?
+        NULL
 
 03. Vytvorte tabuľku, kde pre každú kombináciu krajina/store_id uvediete počet zákazníkov s unikátnym krstnými menom vrámci tejto kombinácie (tj. Ak sú traja Jozefovia zo Slovenska, ktorí nakúpili cez store id 1, tak sa započítajú iba raz)
 
@@ -19,29 +34,68 @@ xx. Zadanie
     Akú priemernú cenu budú mať filmy z výstupu v skupine "Do 80 znakov"? (zaokrúhlite na 2 desatinné)
 
 05. Pre každého vývojára (názov z tab. Apps) uveďte, koľko sa v tabuľke reviews nachádza recenzií na appky od neho a koľko je takých, na ktoré odpovedal (developer_reply). Zoznam zoraďte podľa abecedy.
-
+        SELECT 	apps.developer AS Vyvojar,
+		COUNT(reviews.app_id) AS OD_vyvojara,
+        COUNT(reviews.developer_reply) AS odpovede_vyvojara FROM apps
+        INNER JOIN reviews ON apps.id = reviews.app_id
+        GROUP BY apps.developer ORDER BY apps.developer asc;
     O koľko je pre vývojára Above Market v tabuľke menej zodpovedaných oproti nezodpovedaným recenziám? Uveďte číslo.
+    3
 
 06. Ku každej kategórii (categories) uveďte, koľko appiek je k nej priradených (z apps).
+            SELECT categories.title AS Nazov, COUNT(apps.id) AS Pocet
+            FROM apps_categories
+            JOIN apps ON apps_categories.app_id=apps.id
+            JOIN categories ON apps_categories.category_id=categories.id
+            GROUP BY categories.title;
 
     Koľko appiek je v kategórii Reporting?
+        350
 
 07. Vložte do databázy novú tabuľku s názvom audiobook s atribútmi audiobook_id, nazov (max. 40 znakov), popis (max. 255 znakov) a rok_vydania ako dátový typ dátum.
+        CREATE TABLE audiobook(
+            audiobook_id 	INT PRIMARY KEY,
+            nazov			VARCHAR(255) NOT NULL,
+            rok_vydania		DATE
+            );
 
 08. (company) Zobrazte tabuľku, kde budú dva stĺpce priezvisko a krstne_meno, kde budú vypísaní všetky zákazníci aj zamestnanci.
 
+        SELECT last_name AS Priezvisko, first_name AS Meno, "Customer" AS Pozicia FROM customer
+        UNION
+        SELECT last_name AS Priezvisko, first_name AS Meno, "Staff" FROM staff;
+
 09. sakila) Do tabuľky country vložte krajinu Transilvania.
+        SELECT * FROM country;
+            INSERT INTO country (country, last_update)
+            VALUES ("Transilvania", now());
+
 
 10. (sakila) Vymažte z tabuľky country krajinu Transilvania.
+            DELETE FROM country
+            WHERE country_id=110;
 
 11. (sakila) Vypíšte filmy, ktorých dĺžka je väčšia ako priemerná dĺžka filmov.
 
+        SELECT title FROM film
+        WHERE length > (SELECT AVG(length) FROM film);
     Koľko ich je?
+        489
 
 12. (sakila) Vypíšte maximum z priemerov (samostatných) platieb pre každého zákazníka (výsledok bude iba jedna hodnota, v prípade rovnosti ich môže byť viac)
+        SELECT * FROM payment;
+        SELECT MAX(Priemer) FROM (
+        SELECT customer_id, AVG(amount) AS Priemer FROM payment
+        GROUP BY customer_id) tmp;
 
-    Akáý je výsledok? (na 1 desatinné č.)
+    Aký je výsledok? (na 1 desatinné č.)
+        5.7
 
 13. (sakila) Vypíšte mená zákazníkov (v jednom stĺpci spolu meno aj priezvisko), ktorí uhradili najvyššiu sumu.
+        SELECT CONCAT(cu.first_name," ",cu.last_name) AS Meno_Priezvisko
+        FROM customer cu
+        INNER JOIN payment pay on cu.customer_id=pay.customer_id
+        WHERE amount=(SELECT MAX(amount) FROM payment);
 
     Koľko ich je?
+        10
