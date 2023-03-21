@@ -11,9 +11,13 @@ xx. Zadanie
         INNER JOIN category ON film_category.category_id=category.category_id
         WHERE category.name = "Action"
         GROUP BY Mesiac;
-
-    Koľko ich bolo v mesiaci júl?
-        464
+            SELECT MONTH(rental.rental_date) AS mesiac, COUNT(*) AS pocet FROM `film`
+            INNER JOIN inventory ON inventory.film_id=film.film_id
+            INNER JOIN rental ON rental.inventory_id=inventory.inventory_id
+            INNER JOIN film_category ON film_category.film_id=film.film_id INNER
+            JOIN category ON film_category.category_id=category.category_id
+            WHERE category.name = "Action"
+            GROUP BY mesiac;
 
 02. Pre každý jazyk z tabuľky language uveďte priemernú dĺžku filmov v tomto jazyku (výstupná tabuľka by mala obsahovať výpis všetkých jazykov a priemernú dĺžku filmu).
         SELECT 	language.name AS Jazyk,
@@ -21,17 +25,26 @@ xx. Zadanie
         FROM language
         LEFT JOIN film ON language.language_id=film.language_id
         GROUP BY Jazyk;
-
-    Aký výstup má tabuľka pre taliančinu?
-        NULL
+             SELECT language.name, AVG(film.length) AS priemerna_dlzka_filmu FROM `film`
+             RIGHT JOIN language ON language.language_id=film.language_id
+             GROUP BY language.language_id.
 
 03. Vytvorte tabuľku, kde pre každú kombináciu krajina/store_id uvediete počet zákazníkov s unikátnym krstnými menom vrámci tejto kombinácie (tj. Ak sú traja Jozefovia zo Slovenska, ktorí nakúpili cez store id 1, tak sa započítajú iba raz)
-
-    Koľko Argentínčanov s unikátnym krstným menom realizovali výpožičku cez Obchod č.2?
+    -
+        SELECT country.country AS krajina, customer.store_id, COUNT(DISTINCT customer.first_name) AS pocet_zakaznikov FROM `country`
+        INNER JOIN city ON city.country_id=country.country_id
+        INNER JOIN address ON address.city_id=city.city_id
+        INNER JOIN customer ON customer.address_id=address.address_id
+        GROUP BY country.country_id, customer.store_id;
 
 04. Vytvorte tabuľku, kde filmy rozdelíte do kategórií podľa dĺžky popisu (description) na "Do 10 znakov", "Do 20 znakov" atď. po desiatkach. Pre každú skupinu vypočítajte priemernú replacement_cost. Počítajte iba filmy z kategórií začínajúcich na S a F a vo výstupe nechajte len skupiny s priemernou cenou viac ako 20.
-
-    Akú priemernú cenu budú mať filmy z výstupu v skupine "Do 80 znakov"? (zaokrúhlite na 2 desatinné)
+    -
+         SELECT CONCAT("Do ", ROUND(LENGTH(film_text.description)+4, -1), " znakov") AS Dlzka_popisu, AVG(replacement_cost) AS priemerna_cena FROM `film`
+         INNER JOIN film_category ON film.film_id=film_category.film_id
+         INNER JOIN category ON category.category_id=film_category.category_id
+         INNER JOIN film_text ON film.film_id=film_text.film_id
+         WHERE category.name LIKE "F%" OR category.name LIKE "S%"
+         GROUP BY Dlzka_popisu HAVING priemerna_cena>20;.
 
 05. Pre každého vývojára (názov z tab. Apps) uveďte, koľko sa v tabuľke reviews nachádza recenzií na appky od neho a koľko je takých, na ktoré odpovedal (developer_reply). Zoznam zoraďte podľa abecedy.
         SELECT 	apps.developer AS Vyvojar,
@@ -39,18 +52,22 @@ xx. Zadanie
         COUNT(reviews.developer_reply) AS odpovede_vyvojara FROM apps
         INNER JOIN reviews ON apps.id = reviews.app_id
         GROUP BY apps.developer ORDER BY apps.developer asc;
-    O koľko je pre vývojára Above Market v tabuľke menej zodpovedaných oproti nezodpovedaným recenziám? Uveďte číslo.
-    3
+            SELECT apps.developer,
+            COUNT(*),
+            COUNT(reviews.developer_reply) FROM apps
+            INNER JOIN reviews ON(reviews.app_id=apps.id)
+            GROUP BY apps.developer ORDER BY `apps`.`developer` ASC
 
 06. Ku každej kategórii (categories) uveďte, koľko appiek je k nej priradených (z apps).
-            SELECT categories.title AS Nazov, COUNT(apps.id) AS Pocet
-            FROM apps_categories
-            JOIN apps ON apps_categories.app_id=apps.id
-            JOIN categories ON apps_categories.category_id=categories.id
-            GROUP BY categories.title;
-
-    Koľko appiek je v kategórii Reporting?
-        350
+        SELECT categories.title AS Nazov, COUNT(apps.id) AS Pocet
+        FROM apps_categories
+        JOIN apps ON apps_categories.app_id=apps.id
+        JOIN categories ON apps_categories.category_id=categories.id
+        GROUP BY categories.title;
+            SELECT categories.title, COUNT(*) FROM `apps`
+            INNER JOIN apps_categories ON(apps.id=apps_categories.app_id)
+            INNER JOIN categories ON(apps_categories.category_id=categories.id)
+            GROUP BY categories.title.
 
 07. Vložte do databázy novú tabuľku s názvom audiobook s atribútmi audiobook_id, nazov (max. 40 znakov), popis (max. 255 znakov) a rok_vydania ako dátový typ dátum.
         CREATE TABLE audiobook(
@@ -58,44 +75,55 @@ xx. Zadanie
             nazov			VARCHAR(255) NOT NULL,
             rok_vydania		DATE
             );
+                CREATE TABLE audiobook (
+                audiobook_id int,
+                nazov varchar(40),
+                popis varchar(255),
+                rok_vydania date)
 
 08. (company) Zobrazte tabuľku, kde budú dva stĺpce priezvisko a krstne_meno, kde budú vypísaní všetky zákazníci aj zamestnanci.
 
         SELECT last_name AS Priezvisko, first_name AS Meno, "Customer" AS Pozicia FROM customer
         UNION
         SELECT last_name AS Priezvisko, first_name AS Meno, "Staff" FROM staff;
+            SELECT contactLastName AS priezvisko, contactFirstName AS krstne_meno FROM customers
+            UNION ALL
+            SELECT lastName, firstName FROM employees;
 
 09. sakila) Do tabuľky country vložte krajinu Transilvania.
-        SELECT * FROM country;
             INSERT INTO country (country, last_update)
             VALUES ("Transilvania", now());
-
+                INSERT INTO country (country)
+                VALUES ("Transilvania")
 
 10. (sakila) Vymažte z tabuľky country krajinu Transilvania.
             DELETE FROM country
             WHERE country_id=110;
+                DELETE FROM country
+                WHERE country="Transilvania"
 
 11. (sakila) Vypíšte filmy, ktorých dĺžka je väčšia ako priemerná dĺžka filmov.
 
         SELECT title FROM film
         WHERE length > (SELECT AVG(length) FROM film);
-    Koľko ich je?
-        489
+            SELECT * FROM `film`
+            WHERE length > (SELECT AVG(length) FROM film)
 
 12. (sakila) Vypíšte maximum z priemerov (samostatných) platieb pre každého zákazníka (výsledok bude iba jedna hodnota, v prípade rovnosti ich môže byť viac)
         SELECT * FROM payment;
         SELECT MAX(Priemer) FROM (
         SELECT customer_id, AVG(amount) AS Priemer FROM payment
         GROUP BY customer_id) tmp;
-
-    Aký je výsledok? (na 1 desatinné č.)
-        5.7
+            SELECT MAX(priemer) FROM
+            (SELECT customer_id, AVG(amount) AS priemer FROM `payment`
+            GROUP BY customer_id) temp
 
 13. (sakila) Vypíšte mená zákazníkov (v jednom stĺpci spolu meno aj priezvisko), ktorí uhradili najvyššiu sumu.
         SELECT CONCAT(cu.first_name," ",cu.last_name) AS Meno_Priezvisko
         FROM customer cu
         INNER JOIN payment pay on cu.customer_id=pay.customer_id
         WHERE amount=(SELECT MAX(amount) FROM payment);
-
-    Koľko ich je?
-        10
+            SELECT Concat(last_name, ' ', first_name) AS Meno, amount AS suma
+            FROM customer
+            INNER JOIN payment ON customer.customer_id = payment.customer_id
+            WHERE amount = (SELECT MAX(amount) FROM payment);.
