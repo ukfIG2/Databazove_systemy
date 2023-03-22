@@ -1,0 +1,72 @@
+ 
+xx. Zadanie
+    Moja odpoved
+        Spravna odpoved
+
+01. Z tabuľky rental zistite, koľko výpožičiek bolo urobených v jednotlivé dni v týždni. Vo výstupe vypíšte iba ten deň a počet, v ktorom bolo najviac výpožičiek (ak ich je viac s rovnakým max. počtom, vypíšte ich viac). Riešte bez použitia LIMIT.
+        SELECT * FROM (SELECT DAYNAME(rental_date) as Den, COUNT(rental_id) AS Pocet FROM rental GROUP BY Den)aaa	#TU je potrebne dat premennu
+        WHERE pocet = (SELECT MAX(Pocet) FROM (SELECT DAYNAME(rental_date) as Den, COUNT(rental_id) AS Pocet FROM rental GROUP BY Den)tmp) #aj tu premennu
+
+02. (sakila) Pre každého zákazníka zistite jeho maximálnu platbu a vypočítajte spoločný priemer týchto maxím. Vypíšte zoznam s id, menom a priezviskom všetkých zákazníkov, ktorí vykonali aspoň jednu platbu vyššiu ako tento priemer.
+
+    Koľko je takýchto zákazníkov?
+
+03. (sakila) Vypíšte informácie o všetkých výpožičkách, ktoré boli realizované skôr ako najskoršia výpožička zákazníka 110.
+
+    Koľko je takých výpožičiek?
+
+04. (sakila) Vypíšte informácie o výpožičkách, ktoré boli realizované skôr ako niektorá (aspoň jedna) výpožička zákazníka 110.
+
+    Koľko je takých výpožičiek?
+
+05. (sakila) Vypíšte informácie o výpožičkách, ktoré boli realizované skôr ako ktorákoľvek (každá) výpožička zákazníka 110.
+
+    Koľko je takých výpožičiek?
+
+06. (sakila) Bez použitia JOIN vypíšte mená a priezviská všetkých takých zákazníkov, ktorí vykonali aspoň jednu platbu so sumou vyššou ako 9€.
+        SELECT contactFirstName AS Meno, contactLastName AS Priezvisko FROM customers
+        WHERE customerNumber IN (SELECT customerNumber AS ID FROM payments
+        WHERE amount>9);
+
+    Koľko je takých zákazníkov?
+        98
+07. (company) Vypočítajte deň v týždni, v ktorom bolo vytvorených najviac objednávok. Vytvorte zoznam zákazníkov, ktorí v tento deň realizovali objednávku. Zoraďte ich od najnižžšieho pod id zákazníka.
+        SELECT * FROM customers
+        JOIN orders ON customers.customerNumber=orders.customerNumber
+        WHERE DAYOFWEEK(orderDate) = (SELECT DAYOFWEEK(orderDate) AS Mnozstvo
+        FROM orders
+        GROUP BY DAYOFWEEK(orderDate)
+        ORDER BY COUNT(orderNumber) DESC
+        LIMIT 1)
+        ORDER BY customers.customerNumber ASC
+        ;
+    Ak ich zoradíte podľa id zákazníka od najnižšieho, aké číslo bude na 2. mieste?
+        114
+08. (company) Vypíšte info o zákazníkovi, ktorý zrealizoval najväčšiu (najdrahšiu) objednávku.
+            SELECT * FROM customers
+            WHERE customerNumber=(
+            SELECT customerNumber FROM payments
+            WHERE amount = (
+            SELECT MAX(amount) FROM payments))
+            ;
+
+    Aké má priezvisko?
+        Freyre
+09. (company) Vypíšte všetky krajiny, z ktorých zákazníci majú väčší priemerný limit na kredit (creditlimit) ako zákazníci z USA alebo Japonska
+        SELECT country FROM customers
+        WHERE 	creditLimit>(SELECT AVG(creditLimit) FROM customers
+        WHERE country = "USA") OR
+                creditLimit>(SELECT AVG(creditLimit) FROM customers
+        WHERE country = "Japan")
+        GROUP BY country;
+    Koľko je takýchto krajín?
+        16
+        <<Mam vynechat japonsko a usa??>>
+10. (company) Vypíšte meno a priezvisko spolupracovníkov zamestnanca s employeenumber = 1337, ktorí majú rovnakého vedúceho a pracujú na rovnakej pobočke (officecode) ako on.
+        SELECT  firstName AS Meno, lastName AS Priezvisko FROM employees
+        WHERE	  officeCode = (SELECT officeCode FROM employees
+        WHERE employeeNumber = 1337)	AND
+                         reportsTo = (SELECT reportsTo FROM employees
+        WHERE employeeNumber = 1337);
+    Koľko ich je?
+    4

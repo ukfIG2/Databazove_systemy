@@ -52,7 +52,8 @@
 44. DELETE          -
 
 45.	IN
-46. ANY     -   Akykolvek
+46. ANY     -   Akykolvek aspon jednu  ||
+    ALL - A zaroven &&
 47. SOME    -   Nejaky
 
 48. CREATE TABLE "nazov tabulky"(
@@ -66,3 +67,5 @@
     id_dep      INT     FOREIGN KEY department (id)
 
 49.
+
+DAYNAME
