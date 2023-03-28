@@ -41,11 +41,16 @@
 34. GROUP BY        -   zoskup podla  SELECT;FROM;WHERE;GROUP_BY;ORDER_BY
 35. HAVING          -   WHERE ale v agregacnych. Podmienka if.  SELECT;FROM;GROUP_BY;HAVING
 ---------------------------------------------------------------------
-36. INNER JOIN * ON -   spaja tabulky   SELECT;FROM;INNER JOIN;ON
-37. OUTER JOIN      -
-38. CROSS JOIN      -
-39. LEFT JOIN       -
-40. RIGHT JOIN      -
+36. INNER JOIN * ON -   umožňuje spájanie tabuliek podobne ako klauzula WHERE, do výsledku budú zahrnuté iba riadky, ktoré spĺňajú podmienku spájania,
+37. OUTER JOIN      -    umožňuje spájanie tabuliek na základe definovanej podmienky spojenia, zatiaľ čo výsledok bude obsahovať nielen dáta, ktorá splnili definovanú podmienku, ale aj dáta, ktoré nezodpovedajú spojovacej podmienke,
+    NATURAL JOIN a
+    JOIN USING      -   umožňujú spájanie tabuliek na základe rovnakých názvov stĺpcov tabuľky,
+38. CROSS JOIN      -   umožňuje explicitné vytváranie kartézského súčinu.
+OUTER JOIN
+                    -   Existujú určité špecifické situácie, ktoré vyžadujú, aby sa zobrazovali aj hodnoty z prvej tabuľky zahrnuté v spojení, ktoré nemajú zodpovedajúce hodnoty v druhej tabuľke. Z tohto dôvodu bola do SQL pridaná klauzula OUTER JOIN. Zachováva riadky, ktoré vo výsledku nespĺňajú podmienku spojenia. Nasledujúce tri typy vonkajšieho spojenia možno použiť na základe požiadaviek, ktoré dáta tabuľky musia byť zahrnuté do výsledku otázky:
+39. LEFT OUTER JOIN       - výsledok bude obsahovať všetky dáta z ľavej tabuľky (prvá tabuľka v dotaze) a zodpovedajúce dáta z pravej tabuľky (druhá v dotaze). Ak v druhej tabuľke nie je zodpovedajúca hodnota, platí namiesto nej hodnota null.
+40. RIGHT JOIN      -   výsledok bude obsahovať všetky dáta z pravej tabuľky (druhá tabuľka v dotaze) a zodpovedajúce dáta z ľavej tabuľky (prvý v dotaze). Ak v ľavej tabuľke nie j zodpovedajúca hodnota, platí namiesto nej hodnota null.
+    FULL OUTER JOIN - výsledok bude obsahovať všetky dáta z ľavej a pravej tabuľky, v ktorej je podmienka spojenia pravdivá. Navyše pridá všetky ďalšie riadky z oboch tabuliek, v ktorých chýba zodpovedajúca hodnota v spojenej tabuľke. Vo všetkých týchto prípadoch bude použitá hodnota null.
 41. CREATE          -
 42. INSERT          -
 43. UPDATE          -
@@ -69,3 +74,37 @@
 49.
 
 DAYNAME
+50. FLOOR           -   vracia najväčšiu celočíselnú hodnotu, ktorá nie je väčšia ako argument
+51. CEIL             -   vracia najmenšiu celočíselnú hodnotu, ktorá nie je menšia ako argument
+52. MOD             -   vracia zvysok %
+53. ABS             -   vracia absolútnu hodnotu
+54. INSTR()
+55. LOCATE()
+56. POSITION        -   nájdenie výskytu reťazca v inom reťazci
+57. LOWER
+    LCASE
+    UPPER
+    UCAS            -   zmena velkosti posmen
+58. TRIM
+    LPAD
+    RPAD            -   orezové alebo výplňové reťazce
+59. CURDATE()
+    NOW()
+    SYSDATE()       -   poskytovanie informácií o aktuálnom dátume a čase
+60. DAY()
+    MONTH()
+    YEAR()
+    EXTACT()        -   extrakcie časti dátumu
+61. DATA
+    DATA_FORMAT()   -   formátovanie dátumu a času
+62. ADDATE()
+    DATEDIFF()      -   výpočty s dátami
+63. IF
+    CASE    CASE<>END
+64. IFNULL()
+    NULLIF()
+
+65. Modelovanie
+        1 : 1 - inštancie oboch entít vstupujú do vzťahu maximálne raz,
+        1 : N - inštancia jednej entity vstupuje do vzťahu maximálne raz, zatiaľ čo inštancia druhej entity môže do vzťahu vstúpiť viackrát,
+        M : N - inštancie oboch entít môžu do vzťahu vstupovať viackrát.

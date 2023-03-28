@@ -6,30 +6,31 @@ xx. Zadanie
 01. Z tabuľky rental zistite, koľko výpožičiek bolo urobených v jednotlivé dni v týždni. Vo výstupe vypíšte iba ten deň a počet, v ktorom bolo najviac výpožičiek (ak ich je viac s rovnakým max. počtom, vypíšte ich viac). Riešte bez použitia LIMIT.
         SELECT * FROM (SELECT DAYNAME(rental_date) as Den, COUNT(rental_id) AS Pocet FROM rental GROUP BY Den)aaa	#TU je potrebne dat premennu
         WHERE pocet = (SELECT MAX(Pocet) FROM (SELECT DAYNAME(rental_date) as Den, COUNT(rental_id) AS Pocet FROM rental GROUP BY Den)tmp) #aj tu premennu
+            SELECT den, pocet FROM (SELECT DAYNAME(rental_date) AS den, COUNT(rental_id) AS pocet FROM rental GROUP BY den) temp WHERE pocet = (SELECT MAX(pocet) FROM (SELECT DAYNAME(rental_date) AS den, COUNT(rental_id) AS pocet FROM rental GROUP BY den) temp)
 
 02. (sakila) Pre každého zákazníka zistite jeho maximálnu platbu a vypočítajte spoločný priemer týchto maxím. Vypíšte zoznam s id, menom a priezviskom všetkých zákazníkov, ktorí vykonali aspoň jednu platbu vyššiu ako tento priemer.
-
-    Koľko je takýchto zákazníkov?
+        -
+            SELECT DISTINCT customer.customer_id, customer.first_name, customer.last_name FROM `payment` INNER JOIN customer ON customer.customer_id=payment.customer_id WHERE amount > (SELECT AVG(max) FROM (SELECT customer_id, MAX(amount) AS max FROM `payment` GROUP BY customer_id) temp).
 
 03. (sakila) Vypíšte informácie o všetkých výpožičkách, ktoré boli realizované skôr ako najskoršia výpožička zákazníka 110.
+        SELECT * FROM rental WHERE rental_date<(SELECT MIN(rental_date) FROM rental WHERE customer_id = 110)
+            SELECT * FROM `rental` WHERE rental_date < (SELECT MIN(rental_date) FROM `rental` WHERE customer_id = 110)
 
-    Koľko je takých výpožičiek?
 
 04. (sakila) Vypíšte informácie o výpožičkách, ktoré boli realizované skôr ako niektorá (aspoň jedna) výpožička zákazníka 110.
-
-    Koľko je takých výpožičiek?
+        SELECT * FROM rental WHERE rental_date < ANY (SELECT rental_date FROM rental WHERE customer_id = 110);
+            SELECT * FROM `rental` WHERE rental_date < ANY (SELECT rental_date FROM `rental` WHERE customer_id = 110)
 
 05. (sakila) Vypíšte informácie o výpožičkách, ktoré boli realizované skôr ako ktorákoľvek (každá) výpožička zákazníka 110.
-
-    Koľko je takých výpožičiek?
+        SELECT * FROM rental WHERE rental_date< ALL (SELECT rental_date FROM rental WHERE customer_id = 110)
+            SELECT * FROM `rental` WHERE rental_date < ALL (SELECT rental_date FROM `rental` WHERE customer_id = 110)
 
 06. (sakila) Bez použitia JOIN vypíšte mená a priezviská všetkých takých zákazníkov, ktorí vykonali aspoň jednu platbu so sumou vyššou ako 9€.
         SELECT contactFirstName AS Meno, contactLastName AS Priezvisko FROM customers
         WHERE customerNumber IN (SELECT customerNumber AS ID FROM payments
         WHERE amount>9);
+            SELECT first_name, last_name FROM customer WHERE customer_id = ANY (SELECT DISTINCT customer_id FROM payment WHERE amount > 9)
 
-    Koľko je takých zákazníkov?
-        98
 07. (company) Vypočítajte deň v týždni, v ktorom bolo vytvorených najviac objednávok. Vytvorte zoznam zákazníkov, ktorí v tento deň realizovali objednávku. Zoraďte ich od najnižžšieho pod id zákazníka.
         SELECT * FROM customers
         JOIN orders ON customers.customerNumber=orders.customerNumber
@@ -40,8 +41,10 @@ xx. Zadanie
         LIMIT 1)
         ORDER BY customers.customerNumber ASC
         ;
-    Ak ich zoradíte podľa id zákazníka od najnižšieho, aké číslo bude na 2. mieste?
-        114
+            SELECT DISTINCT customernumber FROM orders
+            WHERE Dayname(orderdate) = (SELECT DISTINCT Dayname(orderdate)
+            FROM orders INNER JOIN (SELECT Dayname(orderdate) AS dn, Count(ordernumber) AS pocet FROM orders GROUP BY Dayname(orderdate) ORDER BY pocet DESC LIMIT 1) t ON Dayname(orders.orderdate) = t.dn) <span style="font-size: 0.9375rem;"><span style="font-size: 0.9375rem;">ORDER BY customerNumber.
+
 08. (company) Vypíšte info o zákazníkovi, ktorý zrealizoval najväčšiu (najdrahšiu) objednávku.
             SELECT * FROM customers
             WHERE customerNumber=(
@@ -49,9 +52,8 @@ xx. Zadanie
             WHERE amount = (
             SELECT MAX(amount) FROM payments))
             ;
+                SELECT * FROM customers INNER JOIN (SELECT customernumber, Sum(od.priceeach * od.quantityordered) AS maxi FROM orders o INNER JOIN orderdetails od ON o.ordernumber = od.ordernumber GROUP BY customernumber ORDER BY maxi DESC LIMIT 1) medzivypocet ON medzivypocet.customernumber = customers.customernumber.
 
-    Aké má priezvisko?
-        Freyre
 09. (company) Vypíšte všetky krajiny, z ktorých zákazníci majú väčší priemerný limit na kredit (creditlimit) ako zákazníci z USA alebo Japonska
         SELECT country FROM customers
         WHERE 	creditLimit>(SELECT AVG(creditLimit) FROM customers
@@ -59,14 +61,12 @@ xx. Zadanie
                 creditLimit>(SELECT AVG(creditLimit) FROM customers
         WHERE country = "Japan")
         GROUP BY country;
-    Koľko je takýchto krajín?
-        16
-        <<Mam vynechat japonsko a usa??>>
+            SELECT country, Avg(creditlimit) AS priemer FROM customers GROUP BY country HAVING priemer > (SELECT Avg(creditlimit) priemer_japan FROM customers WHERE country = 'Japan') OR priemer > (SELECT Avg(creditlimit) priemer_japan FROM customers WHERE country = 'USA')
+
 10. (company) Vypíšte meno a priezvisko spolupracovníkov zamestnanca s employeenumber = 1337, ktorí majú rovnakého vedúceho a pracujú na rovnakej pobočke (officecode) ako on.
         SELECT  firstName AS Meno, lastName AS Priezvisko FROM employees
         WHERE	  officeCode = (SELECT officeCode FROM employees
         WHERE employeeNumber = 1337)	AND
                          reportsTo = (SELECT reportsTo FROM employees
         WHERE employeeNumber = 1337);
-    Koľko ich je?
-    4
+            SELECT lastname, firstname FROM employees WHERE ( reportsto, officecode ) = (SELECT reportsto, officecode FROM employees WHERE employeenumber = 1337) AND employeenumber != 1337
