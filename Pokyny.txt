@@ -36,7 +36,7 @@
 29. MD5
 30. SHA1            -
 31. CONCAT          -   aj v jave. Prida do seba string
-32. LEFT            -   zoberie 3 znaky z lava  SELECT LEFT('SQL Tutorial', 3) AS ExtractString;    SQL
+32. LEFT(string, nu,ber of characters)            -   zoberie 3 znaky z lava  SELECT LEFT('SQL Tutorial', 3) AS ExtractString;    SQL
 33. RIGHT           -   zoberie 3 znaky z prava SELECT RIGHT('SQL Tutorial', 3) AS ExtractString;   ial
 34. GROUP BY        -   zoskup podla  SELECT;FROM;WHERE;GROUP_BY;ORDER_BY
 35. HAVING          -   WHERE ale v agregacnych. Podmienka if.  SELECT;FROM;GROUP_BY;HAVING
@@ -58,7 +58,7 @@ OUTER JOIN
 
 45.	IN
 46. ANY     -   Akykolvek aspon jednu  ||
-    ALL - A zaroven &&
+    ALL - A zaroven && ktorakolvek
 47. SOME    -   Nejaky
 
 48. CREATE TABLE "nazov tabulky"(
